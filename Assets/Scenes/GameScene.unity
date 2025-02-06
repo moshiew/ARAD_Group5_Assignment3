@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1625221395402176, guid: c9951ca0f61167b4593ffe21b0a089c8, type: 3}
-  prefabOffset: {x: 0, y: -0.2, z: -0.3}
+  prefabOffset: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &241557154
 MonoBehaviour:
   m_ObjectHideFlags: 0
