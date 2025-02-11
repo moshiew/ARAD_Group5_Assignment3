@@ -4,7 +4,7 @@
 
 - Khai Xuen - Enemy scripts show how enemies move toward the player, instantiate, and randomize the position in which they spawn.
 
-- Akmal - UI Script(The update to the player health bar, Timer, Points system)
+- Akmal - Level Design
 
 - Colin - Design(Like menu, enemy models, UI design)
 
