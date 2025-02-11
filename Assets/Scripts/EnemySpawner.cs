@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
         SpawnDragon();
     }
 
+    // Instantiate dragon from the portal
     private void SpawnDragon()
     {
         GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);

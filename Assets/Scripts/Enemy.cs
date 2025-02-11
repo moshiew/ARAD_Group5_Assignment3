@@ -16,16 +16,17 @@ public class Enemy : MonoBehaviour
     {
         cameraTransform = Camera.main.transform;
         animator = GetComponent<Animator>();
-        health = healthIcons.Length;
+        health = healthIcons.Length; // Assign the healthIcons array length to health value;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) Damaged();
-        Vector3 targetPosition = cameraTransform.position;
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+        Vector3 targetPosition = cameraTransform.position; // Making Camera Position to Vector3
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime); // Moving Towards Camera
     }
 
+    // Damaging Enemy
     public void Damaged()
     {
         health--;
@@ -36,6 +37,7 @@ public class Enemy : MonoBehaviour
             healthIcons[i].gameObject.SetActive(i < health); // Do a check of the health and the length of the array
         }
 
+        // Death check
         if (health <= 0)
         {
             Destroy(gameObject);
