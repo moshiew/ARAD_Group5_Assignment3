@@ -97,5 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70f9e6f13ef8c24aab84046fbe6f35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragonPrefab: {fileID: 196076, guid: 20a769104331d8b48ac7d1ea0d49cdf3, type: 3}
+  dragonPrefab: {fileID: 7721928470980611238, guid: 98a1b00945b5b1047ae4b3c1fc47c736, type: 3}
   instantiateOffset: {x: 0, y: 0, z: 3}

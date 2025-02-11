@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject dragonPrefab;
-    [SerializeField] private Vector3 instantiateOffset;
     private Transform cameraTransform;
 
     private void Start()
