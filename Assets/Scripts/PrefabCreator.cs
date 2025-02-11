@@ -5,13 +5,15 @@ using UnityEngine.XR.ARFoundation;
 
 public class PrefabCreator : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> enemyPrefabs;
+    [Header("References")]
+    [SerializeField] private List<GameObject> portalPrefabs;
     [SerializeField] private Vector3 prefabOffset;
 
     private ARTrackedImageManager arTrackedImageManager;
     private Transform cameraTransform;
 
-    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private List<GameObject> spawnedPortals = new List<GameObject>();
+    private EnemySpawner enemySpawner;
 
     private void OnEnable()
     {
@@ -19,6 +21,8 @@ public class PrefabCreator : MonoBehaviour
         arTrackedImageManager.trackedImagesChanged += OnImageChanged;
 
         cameraTransform = Camera.main.transform;
+
+        enemySpawner = FindObjectOfType<EnemySpawner>();
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
@@ -29,53 +33,55 @@ public class PrefabCreator : MonoBehaviour
 
             Debug.Log("Image Tracked: " + image.referenceImage.name + " - Prefab Index: " + index);
 
-            if (index >= 0 && index < enemyPrefabs.Count)
-            { 
-                GameObject enemy = Instantiate(enemyPrefabs[index], image.transform.position, image.transform.rotation);
-                enemy.transform.position += prefabOffset;
-                enemy.transform.SetParent(image.transform);
+            if (index >= 0 && index < portalPrefabs.Count)
+            {
+                // Instantiate the portal
+                GameObject portal = Instantiate(portalPrefabs[index], image.transform.position, image.transform.rotation);
+                portal.transform.position += prefabOffset;
+                portal.transform.SetParent(image.transform);
 
-                spawnedEnemies.Add(enemy);
+                // Add the portal to the list
+                spawnedPortals.Add(portal);
             }
         }
 
         foreach (ARTrackedImage image in obj.removed)
         {
-            Transform enemyTransform = image.transform.GetChild(0);
-            if(enemyTransform != null)
+            Transform portalTransform = image.transform.GetChild(0);
+            if (portalTransform != null)
             {
-                spawnedEnemies.Remove(enemyTransform.gameObject);
-                Destroy(enemyTransform.gameObject);
+                spawnedPortals.Remove(portalTransform.gameObject);
+                Destroy(portalTransform.gameObject);
             }
         }
     }
 
     private void Update()
     {
-        foreach(GameObject enemy in spawnedEnemies)
+        foreach (GameObject portal in spawnedPortals)
         {
-            if(enemy != null)
+            if (portal != null)
             {
-                LookAtCamera(enemy);
+                LookAtCamera(portal);
             }
         }
     }
 
-    private void LookAtCamera(GameObject enemy)
+    private void LookAtCamera(GameObject portal)
     {
-        Vector3 directionToCamera = cameraTransform.position - enemy.transform.position;
+        Vector3 directionToCamera = cameraTransform.position - portal.transform.position;
 
         directionToCamera.y = 0;
 
-        if(directionToCamera != Vector3.zero)
+        if (directionToCamera != Vector3.zero)
         {
-            enemy.transform.rotation = Quaternion.LookRotation(directionToCamera);
+            portal.transform.rotation = Quaternion.LookRotation(directionToCamera);
         }
     }
 
     private int GetImageIndex(string imageName)
     {
-        for(int i = 0; i < arTrackedImageManager.referenceLibrary.count; i++)
+        for (int i = 0; i < arTrackedImageManager.referenceLibrary.count; i++)
         {
             if (arTrackedImageManager.referenceLibrary[i].name == imageName)
             {
@@ -85,3 +91,4 @@ public class PrefabCreator : MonoBehaviour
         return -1;
     }
 }
+
