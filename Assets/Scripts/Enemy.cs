@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) Damaged();
         Vector3 targetPosition = cameraTransform.position; // Making Camera Position to Vector3
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime); // Moving Towards Camera
     }
