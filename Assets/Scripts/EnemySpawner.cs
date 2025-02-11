@@ -10,12 +10,13 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         cameraTransform = Camera.main.transform;
-        SpawnDragon();
+        StartCoroutine(SpawnDragon());
     }
 
-    // Instantiate dragon from the portal
-    private void SpawnDragon()
+    public IEnumerator SpawnDragon()
     {
+        yield return new WaitForSeconds(3f);
+
         GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);
         dragon.transform.LookAt(cameraTransform);
     }
