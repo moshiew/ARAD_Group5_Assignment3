@@ -4850,6 +4850,7 @@ GameObject:
   - component: {fileID: 5516487406859467972}
   - component: {fileID: 8445763112410648400}
   - component: {fileID: 3339390747418099020}
+  - component: {fileID: 7390289564886236713}
   m_Layer: 0
   m_Name: Portal blue
   m_TagString: Untagged
@@ -9730,6 +9731,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7390289564886236713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607819269926399345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f70f9e6f13ef8c24aab84046fbe6f35d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragonPrefab: {fileID: 196076, guid: 20a769104331d8b48ac7d1ea0d49cdf3, type: 3}
 --- !u!1 &5995944143312657410
 GameObject:
   m_ObjectHideFlags: 0

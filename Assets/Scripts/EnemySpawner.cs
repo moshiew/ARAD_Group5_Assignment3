@@ -10,30 +10,14 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         cameraTransform = Camera.main.transform;
+        StartCoroutine(SpawnDragon());
     }
 
-    public void SpawnDragon(Vector3 spawnPosition)
+    public IEnumerator SpawnDragon()
     {
-        Debug.Log("Spawning Dragon...");
+        yield return new WaitForSeconds(3f);
 
-        spawnPosition.y -= 1f;
-        GameObject dragon = Instantiate(dragonPrefab, spawnPosition, Quaternion.identity);
+        GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);
         dragon.transform.LookAt(cameraTransform);
-
-        StartCoroutine(RotateDragonTowardsCamera(dragon));
-
-    }
-
-    private IEnumerator RotateDragonTowardsCamera(GameObject dragon)
-    {
-        while(dragon != null)
-        {
-            Vector3 directionToCamera = cameraTransform.position  - dragon.transform.position;
-            directionToCamera.y = 0;
-
-            dragon.transform.rotation = Quaternion.LookRotation(directionToCamera);
-
-            yield return null;
-        }
     }
 }

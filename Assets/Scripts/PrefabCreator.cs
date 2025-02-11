@@ -8,7 +8,6 @@ public class PrefabCreator : MonoBehaviour
     [Header("References")]
     [SerializeField] private List<GameObject> portalPrefabs;
     [SerializeField] private Vector3 prefabOffset;
-    private float delayBeforeEnemySpawn = 3.0f;
 
     private ARTrackedImageManager arTrackedImageManager;
     private Transform cameraTransform;
@@ -43,8 +42,6 @@ public class PrefabCreator : MonoBehaviour
 
                 // Add the portal to the list
                 spawnedPortals.Add(portal);
-
-                StartCoroutine(SpawnEnemyAfter(image));
             }
         }
 
@@ -92,21 +89,6 @@ public class PrefabCreator : MonoBehaviour
             }
         }
         return -1;
-    }
-
-    private IEnumerator SpawnEnemyAfter(ARTrackedImage image)
-    {
-        // Wait for a specified delay before spawning the enemy
-        yield return new WaitForSeconds(delayBeforeEnemySpawn);  // Adjust the delay time here for testing
-
-        // Debug log to confirm that the delay is done
-        Debug.Log("Spawn delay passed. Now spawning the dragon...");
-
-        // Now, call the EnemySpawner to spawn the appropriate enemy (e.g., dragon)
-        if (enemySpawner != null)
-        {
-            enemySpawner.SpawnDragon(image.transform.position);
-        }
     }
 }
 
