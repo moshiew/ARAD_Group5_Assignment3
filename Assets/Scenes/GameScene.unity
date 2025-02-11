@@ -187,8 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 1625221395402176, guid: c9951ca0f61167b4593ffe21b0a089c8, type: 3}
-  - {fileID: 7035340801813807993, guid: c4af682be65ae26478eefbc1f12c90a1, type: 3}
+  - {fileID: 8924141534523708332, guid: 68a0b0e6fd6c9854497d15a9821c8e86, type: 3}
   prefabOffset: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &241557154
 MonoBehaviour:

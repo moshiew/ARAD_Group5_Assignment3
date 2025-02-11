@@ -30,7 +30,7 @@ public class PrefabCreator : MonoBehaviour
             Debug.Log("Image Tracked: " + image.referenceImage.name + " - Prefab Index: " + index);
 
             if (index >= 0 && index < enemyPrefabs.Count)
-            { 
+            {
                 GameObject enemy = Instantiate(enemyPrefabs[index], image.transform.position, image.transform.rotation);
                 enemy.transform.position += prefabOffset;
                 enemy.transform.SetParent(image.transform);
@@ -42,7 +42,7 @@ public class PrefabCreator : MonoBehaviour
         foreach (ARTrackedImage image in obj.removed)
         {
             Transform enemyTransform = image.transform.GetChild(0);
-            if(enemyTransform != null)
+            if (enemyTransform != null)
             {
                 spawnedEnemies.Remove(enemyTransform.gameObject);
                 Destroy(enemyTransform.gameObject);
@@ -52,9 +52,9 @@ public class PrefabCreator : MonoBehaviour
 
     private void Update()
     {
-        foreach(GameObject enemy in spawnedEnemies)
+        foreach (GameObject enemy in spawnedEnemies)
         {
-            if(enemy != null)
+            if (enemy != null)
             {
                 LookAtCamera(enemy);
             }
@@ -67,7 +67,7 @@ public class PrefabCreator : MonoBehaviour
 
         directionToCamera.y = 0;
 
-        if(directionToCamera != Vector3.zero)
+        if (directionToCamera != Vector3.zero)
         {
             enemy.transform.rotation = Quaternion.LookRotation(directionToCamera);
         }
@@ -75,7 +75,7 @@ public class PrefabCreator : MonoBehaviour
 
     private int GetImageIndex(string imageName)
     {
-        for(int i = 0; i < arTrackedImageManager.referenceLibrary.count; i++)
+        for (int i = 0; i < arTrackedImageManager.referenceLibrary.count; i++)
         {
             if (arTrackedImageManager.referenceLibrary[i].name == imageName)
             {
