@@ -6,89 +6,75 @@ using UnityEngine.XR.ARFoundation;
 public class PrefabCreator : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private List<GameObject> portalPrefabs;
-    [SerializeField] private Vector3 prefabOffset;
+    [SerializeField] private GameObject portalPrefab; // Portal prefab to instantiate
+    [SerializeField] private Vector3 prefabOffset; // Offset to adjust the portal's position
 
     private ARTrackedImageManager arTrackedImageManager;
     private Transform cameraTransform;
 
-    private List<GameObject> spawnedPortals = new List<GameObject>();
-    private EnemySpawner enemySpawner;
+    private GameObject spawnedPortal; // Only one portal will be tracked and spawned
 
     private void OnEnable()
     {
+        // Instantiate AR image tracking manager and camera
         arTrackedImageManager = gameObject.GetComponent<ARTrackedImageManager>();
         arTrackedImageManager.trackedImagesChanged += OnImageChanged;
 
-        cameraTransform = Camera.main.transform;
-
-        enemySpawner = FindObjectOfType<EnemySpawner>();
+        cameraTransform = Camera.main.transform; // Get the camera's transform
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
     {
+        // Handle the addition of new tracked images
         foreach (ARTrackedImage image in obj.added)
         {
-            int index = GetImageIndex(image.referenceImage.name);
+            Debug.Log("Image Tracked: " + image.referenceImage.name);
 
-            Debug.Log("Image Tracked: " + image.referenceImage.name + " - Prefab Index: " + index);
-
-            if (index >= 0 && index < portalPrefabs.Count)
+            // Instantiate portal at the image's position
+            if (spawnedPortal == null)
             {
-                // Instantiate the portal
-                GameObject portal = Instantiate(portalPrefabs[index], image.transform.position, image.transform.rotation);
-                portal.transform.position += prefabOffset;
-                portal.transform.SetParent(image.transform);
+                // Instantiate the portal at the image's position
+                GameObject portal = Instantiate(portalPrefab, image.transform.position, image.transform.rotation);
+                portal.transform.position += prefabOffset; // Apply the offset to the portal's position
+                portal.transform.SetParent(image.transform); // Set the potral as a child of the tracked image
 
-                // Add the portal to the list
-                spawnedPortals.Add(portal);
+                LookAtCamera(portal);
+
+                spawnedPortal = portal;
             }
         }
 
+        // Handle removal of tracked images
         foreach (ARTrackedImage image in obj.removed)
         {
-            Transform portalTransform = image.transform.GetChild(0);
-            if (portalTransform != null)
+            if (spawnedPortal != null)
             {
-                spawnedPortals.Remove(portalTransform.gameObject);
-                Destroy(portalTransform.gameObject);
+                Destroy(spawnedPortal);
+                spawnedPortal = null;
             }
         }
     }
 
     private void Update()
     {
-        foreach (GameObject portal in spawnedPortals)
+        if (spawnedPortal != null)
         {
-            if (portal != null)
-            {
-                LookAtCamera(portal);
-            }
+            LookAtCamera(spawnedPortal);
         }
     }
 
     private void LookAtCamera(GameObject portal)
     {
+        // Calculate the direction from the portal to the camera
         Vector3 directionToCamera = cameraTransform.position - portal.transform.position;
-
+        // Set y axis to 0
         directionToCamera.y = 0;
 
         if (directionToCamera != Vector3.zero)
         {
+            // Rotate the portal to face the camera
             portal.transform.rotation = Quaternion.LookRotation(directionToCamera);
         }
-    }
-
-    private int GetImageIndex(string imageName)
-    {
-        for (int i = 0; i < arTrackedImageManager.referenceLibrary.count; i++)
-        {
-            if (arTrackedImageManager.referenceLibrary[i].name == imageName)
-            {
-                return i;
-            }
-        }
-        return -1;
     }
 }
 

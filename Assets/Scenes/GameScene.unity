@@ -187,8 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991d00848401bb240a98272cc7b7a3ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalPrefabs:
-  - {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
+  portalPrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
   prefabOffset: {x: 0, y: -0.1, z: -0.1}
 --- !u!114 &241557154
 MonoBehaviour:
