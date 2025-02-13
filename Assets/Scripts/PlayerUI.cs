@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     public float maxHealth;
     public float playerHealth;
     public Text healthtext;
+    public GameObject loseTxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,7 @@ public class PlayerUI : MonoBehaviour
         //playerHealth -= 50f;
         //healthtext = GetComponent<Text>();
         healthtext = GameObject.Find("HealthTxt").GetComponent<Text>();
+        loseTxt.SetActive(false);
         UpdateText();
     }
 
@@ -29,6 +31,7 @@ public class PlayerUI : MonoBehaviour
         if (playerHealth < 0)
         {
             playerHealth = 0;
+            loseTxt.SetActive(true);
         }
     }
     public void UpdateText()
