@@ -11,10 +11,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         cameraTransform = Camera.main.transform;
-        for (int i = 0; i < 2; i++)
-        {
-            StartCoroutine(SpawnDragon());
-        }
+        StartCoroutine(SpawnDragon());
     }
 
     public IEnumerator SpawnDragon()
@@ -29,6 +26,6 @@ public class EnemySpawner : MonoBehaviour
             GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);
             dragon.transform.LookAt(cameraTransform);
         }
-
+       
     }
 }

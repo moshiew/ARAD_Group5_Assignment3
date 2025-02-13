@@ -9,8 +9,6 @@ public class Enemy : MonoBehaviour
     private Animator animator;
     [SerializeField] private float speed;
     [HideInInspector] public int health;
-    public PlayerUI playerUI;
-    public Collider2D hitter;
 
     public Image[] healthIcons;
 
@@ -19,14 +17,12 @@ public class Enemy : MonoBehaviour
         cameraTransform = Camera.main.transform;
         animator = GetComponent<Animator>();
         health = healthIcons.Length; // Assign the healthIcons array length to health value;
-        playerUI = GetComponent<PlayerUI>();
-}
+    }
 
     void Update()
     {
         Vector3 targetPosition = cameraTransform.position; // Making Camera Position to Vector3
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime); // Moving Towards Camera
-        CheckPlayer();
     }
 
     // Damaging Enemy
@@ -45,17 +41,5 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    public void CheckPlayer()
-    {
-        if (FindAnyObjectByType<PlayerUI>() != null && playerUI == null)
-        {
-            //Debug.Log("Enemy found.");
-            playerUI = FindAnyObjectByType<PlayerUI>();
-        }
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        Debug.Log(other.gameObject);
     }
 }
