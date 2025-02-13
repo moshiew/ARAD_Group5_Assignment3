@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -10,9 +11,11 @@ public class PrefabCreator : MonoBehaviour
     [SerializeField] private Vector3 prefabOffset; // Offset to adjust the portal's position
 
     [SerializeField] private GameObject winUI; // Reference to the Win UI
-    [SerializeField] private float gameDuration = 60f; // Total gameplay time
-   
+    [SerializeField] private TextMeshProUGUI timerUI; // Reference to the Timer UI
+    [SerializeField] private float gameDuration = 10f; // Total gameplay time
 
+    private float time;
+    private bool timeCountDown = false;
     private ARTrackedImageManager arTrackedImageManager;
     private Transform cameraTransform;
 
@@ -26,6 +29,8 @@ public class PrefabCreator : MonoBehaviour
 
         cameraTransform = Camera.main.transform; // Get the camera's transform
         StartCoroutine(endGameplay());
+        timeCountDown = true;
+        winUI.SetActive(false);
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
@@ -41,7 +46,7 @@ public class PrefabCreator : MonoBehaviour
                 // Instantiate the portal at the image's position
                 GameObject portal = Instantiate(portalPrefab, image.transform.position, image.transform.rotation);
                 portal.transform.position += prefabOffset; // Apply the offset to the portal's position
-                portal.transform.SetParent(image.transform); // Set the potral as a child of the tracked image
+                portal.transform.SetParent(image.transform); // Set the portal as a child of the tracked image
 
                 LookAtCamera(portal);
 
@@ -66,6 +71,11 @@ public class PrefabCreator : MonoBehaviour
         {
             LookAtCamera(spawnedPortal);
         }
+        if (timeCountDown)
+        {
+            time = Mathf.CeilToInt(gameDuration -= Time.deltaTime);
+            timerUI.text = time.ToString();
+        }
     }
 
     private void LookAtCamera(GameObject portal)
@@ -81,18 +91,23 @@ public class PrefabCreator : MonoBehaviour
             portal.transform.rotation = Quaternion.LookRotation(directionToCamera);
         }
     }
-
+   
     private IEnumerator endGameplay()
     {
         yield return new WaitForSeconds(gameDuration);
         GameObject[] dragonPrefabGroup = GameObject.FindGameObjectsWithTag("Dragon");
         if (spawnedPortal != null)
         {
-            Destroy (spawnedPortal);
+            Destroy(spawnedPortal);
             foreach (var dragon in dragonPrefabGroup)
             {
                 Destroy(dragon);
             }
+            timeCountDown = false;
+            
+            winUI.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            winUI.SetActive(false);
         }
     }
 }

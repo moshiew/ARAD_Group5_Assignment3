@@ -27,7 +27,7 @@ public class Tapper : MonoBehaviour
             Debug.Log(Input.touchCount);
             Touch tap = Input.GetTouch(0);
             Debug.Log(tap.position);
-            sensor.transform.position = Camera.main.ScreenToViewportPoint(tap.position);
+            //sensor.transform.position = Camera.main.ScreenToViewportPoint(tap.position);
             Ray lineOfSight = Camera.main.ScreenPointToRay(tap.position);
             RaycastHit hit;
             if (enemy != null)
