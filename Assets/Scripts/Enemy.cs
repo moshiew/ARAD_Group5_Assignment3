@@ -11,16 +11,22 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public int health;
     public PlayerUI playerUI;
     public Collider2D hitter;
+    public bool invincible;
+    public bool touchPlayer;
+    public float attackPower = 20f;
 
     public Image[] healthIcons;
 
     private void Start()
     {
+        touchPlayer = false;
+        invincible = false;
         cameraTransform = Camera.main.transform;
         animator = GetComponent<Animator>();
         health = healthIcons.Length; // Assign the healthIcons array length to health value;
         playerUI = GetComponent<PlayerUI>();
-}
+        StartCoroutine(DamagePlayer());
+    }
 
     void Update()
     {
@@ -56,6 +62,33 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.gameObject);
+        if (other.GetComponent<PlayerHitbox>() != null)
+        {
+            touchPlayer = true;
+        }
+        else
+        {
+            touchPlayer = false;
+        }
+        //Debug.Log(other.gameObject);
+    }
+    IEnumerator DamagePlayer()
+    {
+        while (true)
+        {
+            if (invincible == false && touchPlayer == true)
+            {
+                invincible = true;
+                if (playerUI != null)
+                {
+                    playerUI.Damaged(attackPower);
+                }
+                Debug.Log("Hit");
+                playerUI.UpdateText();
+                yield return new WaitForSeconds(2f);
+                invincible = false;
+            }
+            yield return new WaitForSeconds(0f);
+        }
     }
 }
