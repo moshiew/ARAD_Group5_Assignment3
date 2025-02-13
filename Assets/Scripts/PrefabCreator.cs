@@ -9,6 +9,10 @@ public class PrefabCreator : MonoBehaviour
     [SerializeField] private GameObject portalPrefab; // Portal prefab to instantiate
     [SerializeField] private Vector3 prefabOffset; // Offset to adjust the portal's position
 
+    [SerializeField] private GameObject winUI; // Reference to the Win UI
+    [SerializeField] private float gameDuration = 60f; // Total gameplay time
+   
+
     private ARTrackedImageManager arTrackedImageManager;
     private Transform cameraTransform;
 
@@ -21,6 +25,7 @@ public class PrefabCreator : MonoBehaviour
         arTrackedImageManager.trackedImagesChanged += OnImageChanged;
 
         cameraTransform = Camera.main.transform; // Get the camera's transform
+        StartCoroutine(endGameplay());
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
@@ -74,6 +79,20 @@ public class PrefabCreator : MonoBehaviour
         {
             // Rotate the portal to face the camera
             portal.transform.rotation = Quaternion.LookRotation(directionToCamera);
+        }
+    }
+
+    private IEnumerator endGameplay()
+    {
+        yield return new WaitForSeconds(gameDuration);
+        GameObject[] dragonPrefabGroup = GameObject.FindGameObjectsWithTag("Dragon");
+        if (spawnedPortal != null)
+        {
+            Destroy (spawnedPortal);
+            foreach (var dragon in dragonPrefabGroup)
+            {
+                Destroy(dragon);
+            }
         }
     }
 }

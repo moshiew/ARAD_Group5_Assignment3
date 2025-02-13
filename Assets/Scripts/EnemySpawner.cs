@@ -5,8 +5,9 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject dragonPrefab;
+    [SerializeField] private float spawnInterval = 3f;
     private Transform cameraTransform;
-
+    private bool isSpawning = true;
     private void Start()
     {
         cameraTransform = Camera.main.transform;
@@ -15,9 +16,16 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator SpawnDragon()
     {
-        yield return new WaitForSeconds(3f);
-
-        GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);
-        dragon.transform.LookAt(cameraTransform);
+        while (isSpawning) 
+        {
+            yield return new WaitForSeconds(spawnInterval);
+            if (!isSpawning)
+            {
+                yield break;
+            }
+            GameObject dragon = Instantiate(dragonPrefab, gameObject.transform.position, Quaternion.identity);
+            dragon.transform.LookAt(cameraTransform);
+        }
+       
     }
 }
