@@ -21,7 +21,6 @@ public class PrefabCreator : MonoBehaviour
         arTrackedImageManager.trackedImagesChanged += OnImageChanged;
 
         cameraTransform = Camera.main.transform; // Get the camera's transform
-
     }
 
     private void OnImageChanged(ARTrackedImagesChangedEventArgs obj)
@@ -38,13 +37,17 @@ public class PrefabCreator : MonoBehaviour
                 GameObject portal = Instantiate(portalPrefab, image.transform.position, image.transform.rotation);
                 portal.transform.position += prefabOffset; // Apply the offset to the portal's position
                 portal.transform.SetParent(image.transform); // Set the potral as a child of the tracked image
+
+                LookAtCamera(portal);
+
+                spawnedPortal = portal;
             }
         }
 
         // Handle removal of tracked images
         foreach (ARTrackedImage image in obj.removed)
         {
-            if (spawnedPortal != null && image.transform == spawnedPortal.transform.parent)
+            if (spawnedPortal != null)
             {
                 Destroy(spawnedPortal);
                 spawnedPortal = null;
