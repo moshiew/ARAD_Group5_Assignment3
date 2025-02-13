@@ -9,7 +9,8 @@ public class PlayerUI : MonoBehaviour
     public float maxHealth;
     public float playerHealth;
     public Text healthtext;
-    public GameObject loseTxt;
+    public GameObject loseUI;
+    public PrefabCreator prefabCreator;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class PlayerUI : MonoBehaviour
         //playerHealth -= 50f;
         //healthtext = GetComponent<Text>();
         healthtext = GameObject.Find("HealthTxt").GetComponent<Text>();
-        loseTxt.SetActive(false);
+        loseUI.SetActive(false);
         UpdateText();
     }
 
@@ -28,10 +29,10 @@ public class PlayerUI : MonoBehaviour
     public void Damaged(float amount)
     {
         playerHealth -= amount;
-        if (playerHealth < 0)
+        if (playerHealth <= 0)
         {
             playerHealth = 0;
-            loseTxt.SetActive(true);
+            StartCoroutine(gameOver());
         }
     }
     public void UpdateText()
@@ -39,6 +40,24 @@ public class PlayerUI : MonoBehaviour
         if (healthtext != null)
         {
             healthtext.text = ("Health: " + playerHealth); //Adjusts the text in the input.
+        }
+    }
+    private IEnumerator gameOver()
+    {
+        GameObject[] dragonPrefabGroup = GameObject.FindGameObjectsWithTag("Dragon");
+        if (prefabCreator.spawnedPortal != null)
+        {
+            Destroy(prefabCreator.spawnedPortal);
+            foreach (var dragon in dragonPrefabGroup)
+            {
+                Destroy(dragon);
+            }
+            prefabCreator.timeCountDown = false;
+
+            loseUI.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            loseUI.SetActive(false);
+
         }
     }
 }

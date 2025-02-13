@@ -264,7 +264,10 @@ MonoBehaviour:
   portalPrefab: {fileID: 5607819269926399345, guid: 45e0f06c750176947862c10346226439, type: 3}
   prefabOffset: {x: 0, y: -0.1, z: -0.1}
   winUI: {fileID: 1068825838}
-  gameDuration: 60
+  timerUI: {fileID: 846263249}
+  gameDuration: 30
+  timeCountDown: 0
+  spawnedPortal: {fileID: 0}
 --- !u!114 &241557154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,7 +1273,8 @@ MonoBehaviour:
   maxHealth: 100
   playerHealth: 50
   healthtext: {fileID: 2127162025}
-  loseTxt: {fileID: 1448664703}
+  loseUI: {fileID: 1448664703}
+  prefabCreator: {fileID: 241557153}
 --- !u!114 &764437457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,7 +1323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -142, y: -702}
+  m_AnchoredPosition: {x: -122, y: -702}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &846263249
