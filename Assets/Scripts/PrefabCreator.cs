@@ -28,8 +28,6 @@ public class PrefabCreator : MonoBehaviour
         arTrackedImageManager.trackedImagesChanged += OnImageChanged;
 
         cameraTransform = Camera.main.transform; // Get the camera's transform
-        StartCoroutine(endGameplay());
-        timeCountDown = true;
         winUI.SetActive(false);
     }
 
@@ -51,6 +49,8 @@ public class PrefabCreator : MonoBehaviour
                 LookAtCamera(portal);
 
                 spawnedPortal = portal;
+                StartCoroutine(endGameplay());
+                timeCountDown = true;
             }
         }
 
@@ -108,6 +108,7 @@ public class PrefabCreator : MonoBehaviour
             winUI.SetActive(true);
             yield return new WaitForSeconds(3f);
             winUI.SetActive(false);
+            
         }
     }
 }
