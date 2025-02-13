@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public Image image;
+    public Image healthBar;
     public float baseHealth;
     public float maxHealth;
     public float playerHealth;
@@ -15,13 +15,13 @@ public class PlayerUI : MonoBehaviour
         baseHealth = 100f;
         maxHealth = baseHealth;
         playerHealth = maxHealth;
-        image = image.GetComponent<Image>();
+        healthBar = healthBar.GetComponent<Image>();
         playerHealth -= 50f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        image.fillAmount = playerHealth / maxHealth;
+        healthBar.fillAmount = playerHealth / maxHealth;
     }
 }
